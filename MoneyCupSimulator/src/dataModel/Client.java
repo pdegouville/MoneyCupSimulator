@@ -21,6 +21,7 @@ public class Client {
 	private double[] cashMvt;
 	private double[] savings;
 	private double[] fees;
+	private double[] callCenterCosts;
 	private int[] MvtTab;
 	private boolean[] useMonthlyFee;
 	private boolean student;
@@ -38,6 +39,7 @@ public class Client {
 		savings = new double[size];
 		fees = new double[size];
 		MvtTab = new int[size];
+		callCenterCosts = new double[size];
 		
 		initialAmount = param.getinitAmountTable(Math.random());
 		periodicAmount = param.getPeriodicTransferTable(Math.random());
@@ -128,6 +130,19 @@ public class Client {
 		}
 	}
 	
+	public void computeCallCenterCosts(ArrayList<Integer> feesDates){
+		
+		int idFees = 0;
+		if(Math.random()<=param.getCallCenterCallAtOpenPct()) callCenterCosts[startIndex] = param.getAverageCallTime()*param.getCallCenterHourCost();
+		while(feesDates.get(idFees)< startIndex) idFees++;
+		for(int i =startIndex+1; i<callCenterCosts.length; i++){
+			if(i==feesDates.get(idFees)){
+				if(Math.random()<=param.getCallCenterCallMonthlyProba()) callCenterCosts[i] = param.getAverageCallTime()*param.getCallCenterHourCost();
+				idFees++;
+			}
+		}
+		
+	}
 	private void initWithdrawsDates(){
 		// on ajoute une année pour les effets de bord
 		// Il y a donc des dates qui débordent
@@ -190,6 +205,10 @@ public class Client {
 	
 	public double[] getsavings(){
 		return savings;
+	}
+	
+	public double[] getCallCenterCosts(){
+		return callCenterCosts;
 	}
 	
 	public int[] getMvtTab(){

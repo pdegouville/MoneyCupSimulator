@@ -13,7 +13,12 @@ public class SimulatorParam {
 	private double dAnnualClosingRate = 0.05;
 	private double monthlyflatfee = 1.5;
 	private double monthlyfee = 0.005;
-	private double studentProba = 0.20;
+	private double studentProba = 0.2;
+	private double callCenterHourCost = 15;
+	private double callCenterCallAtOpenPct = 0.05;
+	private double callCenterCallMonthlyProba = 0.005;
+	private double averageCallTime = 10.0/60;
+	
 	
 	
 	public SimulatorParam() {
@@ -139,6 +144,22 @@ public class SimulatorParam {
 	
 	ArrayList<Bucket> getinitAmountTable(){
 		return initAmountTable;
+	}
+
+	public double getCallCenterHourCost() {
+		return callCenterHourCost;
+	}
+
+	public double getCallCenterCallAtOpenPct() {
+		return callCenterCallAtOpenPct;
+	}
+
+	public double getCallCenterCallMonthlyProba() {
+		return callCenterCallMonthlyProba;
+	}
+
+	public double getAverageCallTime() {
+		return averageCallTime;
 	}
 
 

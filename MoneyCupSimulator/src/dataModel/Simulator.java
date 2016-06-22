@@ -26,6 +26,7 @@ public class Simulator {
 	private double[] dailyCashMvt;
 	private double[] dailyFees;
 	private double[] dailySavings;
+	private double[] dailyCallCenterCosts;
 	private int[] dailyMvt;
 	private int[] dailyClose;
 	private int[] dailyStudent;
@@ -65,6 +66,7 @@ public class Simulator {
 	    dailyClose = new int[nbjours];
 	    dailyStudent= new int[nbjours];
 	    dailycloseBeforeSaving = new int[nbjours];
+	    dailyCallCenterCosts = new double[nbjours];
 	    
 	    
 	    initdailyOpenAccounts(sfilePath);
@@ -76,11 +78,13 @@ public class Simulator {
 	    	for(int j=0; j<dailyOpenAccounts[i]; j++){
 		    	Client c = new Client(1, nbjours, i, param);
 		    	c.computeCashMvt(feesDates);
+		    	c.computeCallCenterCosts(feesDates);
 		    	addTabs(dailyCashMvt, c.getcashMvt());
 		    	addTabs(dailyFees, c.getfees());
 		    	addTabs(dailySavings, c.getsavings());
 		    	addTabs(dailyMvt, c.getMvtTab());
 		    	addTabs(largeaccounts, c.getuseMonthlyFee());
+		    	addTabs(dailyCallCenterCosts, c.getCallCenterCosts());
 		    	if(c.getCloseDate()!=0) dailyClose[c.getCloseDate()] =dailyClose[c.getCloseDate()] +1;
 		    	if(c.isStudent()) dailyStudent[i] = dailyStudent[i]+1;
 		    	if(c.isclosedBeforeSaving()) dailycloseBeforeSaving[i] = dailycloseBeforeSaving[i] + 1;
@@ -106,7 +110,8 @@ public class Simulator {
 	    System.out.println(Arrays.toString(dailycloseBeforeSaving));
 	    System.out.println("large accounts");
 	    System.out.println(Arrays.toString(largeaccounts));
-
+	    System.out.println("CallCenter costs");
+	    System.out.println(Arrays.toString(dailyCallCenterCosts));
 	     
 	}
 	
@@ -216,6 +221,7 @@ public class Simulator {
 			wr.println(myToStringTat("nb mvt", dailyMvt));
 			wr.println(myToStringTat("fees", dailyFees));
 			wr.println(myToStringTat("large accounts", largeaccounts));
+			wr.println(myToStringTat("callcenter costs", dailyCallCenterCosts));
 			
 			wr.close();
 		}catch (IOException ex){
